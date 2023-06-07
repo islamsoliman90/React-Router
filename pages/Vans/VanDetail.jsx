@@ -14,16 +14,8 @@ export default function VanDetail() {
             .then(data => setVan(data.vans))
     }, [params.id])
 
-    /**
-     * Challenge: When a filter is applied, change the text of
-     * the button to say "Back to luxury vans" (e.g.) instead of
-     * "Back to all vans".
-     * 
-     * As usual, there's more than one way to solve this, so just
-     * give it your best shot
-     */
-    
     const search = location.state?.search || ""
+    const type = location.state?.type || "all"
     
     return (
         <div className="van-detail-container">
@@ -31,7 +23,7 @@ export default function VanDetail() {
                 to={`..${search}`}
                 relative="path"
                 className="back-button"
-            >&larr; <span>Back to all vans</span></Link>
+            >&larr; <span>Back to {type} vans</span></Link>
             
             {van ? (
                 <div className="van-detail">
