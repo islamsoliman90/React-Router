@@ -19,37 +19,48 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 
 const vansCollectionRef = collection(db, "van");
 
 export async function getVans() {
-  const querySnapshot = await getDocs(vansCollectionRef);
-  const dataArr = querySnapshot.docs.map((doc) => ({
+  const docsC = await getDocs(vansCollectionRef);
+  const arrvan = docsC.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  return dataArr;
+  return arrvan;
 }
 
 export async function getVan(id) {
-  const docRef = doc(db, "vans", id);
-  const vanSnapshot = await getDoc(docRef);
+  const docref = doc(db, "van", id);
+  const snapdoc = await getDoc(docref);
   return {
-    ...vanSnapshot.data(),
-    id: vanSnapshot.id,
+    ...snapdoc.data(),
+    id: snapdoc.id,
   };
 }
 
 export async function getHostVans() {
   const q = query(vansCollectionRef, where("hostId", "==", "123"));
-  const querySnapshot = await getDocs(q);
-  const dataArr = querySnapshot.docs.map((doc) => ({
+  const querysnap = await getDocs(q);
+  const arrvan = querysnap.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  return dataArr;
+  return arrvan;
 }
+
+// export async function getHostVans() {
+//   const q = query(vansCollectionRef, where("hostId", "==", "123"));
+//   const querySnapshot = await getDocs(q);
+//   const dataArr = querySnapshot.docs.map((doc) => ({
+//     ...doc.data(),
+//     id: doc.id,
+//   }));
+//   return dataArr;
+// }
 
 export async function loginUser(creds) {
   const res = await fetch("/api/login", {
